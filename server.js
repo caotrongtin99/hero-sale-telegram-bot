@@ -31,7 +31,7 @@ async function findCheapestHero() {
     );
     for (let i = 0; i < heroes.length; i++) {
       const currentHero = heroes[i];
-      if (currentHero.usdPrice < 80 && currentHero.battleCap < 60 && !emailedHeroes.includes(currentHero.refId)) {
+      if (currentHero.usdPrice < 100 && currentHero.battleCap < 100 && !emailedHeroes.includes(currentHero.refId)) {
         emailedHeroes.push(currentHero.refId)
         bot.sendMessage(793210862, `Giá: ${currentHero.usdPrice}, Đã chơi: ${currentHero.battleCap} trận, Link mua: https://marketplace.thetanarena.com/item/${currentHero.refId}`);
       }
