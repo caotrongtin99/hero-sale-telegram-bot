@@ -2,12 +2,14 @@ require("dotenv").config();
 const TelegramBot = require('node-telegram-bot-api');
 var cron = require("node-cron");
 const axios = require("axios");
+const logger = require('./logger')
 let price = require("crypto-price");
 const token = process.env.BOT_TOKEN;
 const baseurl = process.env.BASE_URL;
 const bot = new TelegramBot(token, {polling: true});
 const emailedHeroes = []
 const listContacts = []
+let previousListContacts = []
 
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
@@ -19,6 +21,9 @@ bot.on('message', (msg) => {
 
 async function findCheapestHero() {
   try {
+    if (previousListContacts.toString() !== listContacts.toString()) {
+      console.log({ listContacts })
+    }
     const response = await axios.get(baseurl);
     let heroes = response.data.data || [];
     const currentBnbPriceObj = await price.getCryptoPrice("USDT", "BNB");
@@ -45,8 +50,9 @@ async function findCheapestHero() {
         }
       }
     }
+    previousListContacts = listContacts
   } catch (error) {
-    console.error({ error });
+    logger.error({ error });
   }
 }
 
