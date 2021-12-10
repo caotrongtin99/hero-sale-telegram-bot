@@ -2,7 +2,6 @@ require("dotenv").config();
 const TelegramBot = require('node-telegram-bot-api');
 var cron = require("node-cron");
 const axios = require("axios");
-const logger = require('./logger')
 let price = require("crypto-price");
 const token = process.env.BOT_TOKEN;
 const baseurl = process.env.BASE_URL;
@@ -52,7 +51,7 @@ async function findCheapestHero() {
     }
     previousListContacts = listContacts
   } catch (error) {
-    logger.error({ error });
+    console.error({ error, date: new Date() });
   }
 }
 
